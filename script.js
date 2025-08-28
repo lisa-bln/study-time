@@ -15,17 +15,19 @@ stopButton.textContent = 'Stop'
 app.appendChild(form)
 form.appendChild(timeInput)
 app.appendChild(timerPanel)
-app.appendChild(startButton)
+form.appendChild(startButton)
 app.appendChild(pauseButton)
 app.appendChild(stopButton)
 
+let intervalId
+let remainingTime
 
-function countdown(TimeMilliSec) {
-  let countdownDate = new Date().getTime() + TimeMilliSec
+function countdown(timeMilliSec) {
+  let countdownDate = new Date().getTime() + timeMilliSec
 
-  var x = setInterval(function() {
+  intervalId = setInterval(function() {
     let now = new Date().getTime()
-    let remainingTime = countdownDate - now
+    remainingTime = countdownDate - now
 
     let hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60))
@@ -37,25 +39,40 @@ function countdown(TimeMilliSec) {
       clearInterval(x)
       timerPanel.textContent = 'Well done!'
     }
-
   }, 500)
 }
 
 form.onsubmit = (event) => {
   event.preventDefault()
-  if (timeInput.value === '') {
+  if (remainingTime) {
+    countdown(remainingTime)
+  } else if (timeInput.value === '') {
     alert('Please type in the number of minutes you would like focus for!')
-  } else {
-    let TimeMilliSec = 1000 * 60 * timeInput.value
-    countdown(TimeMilliSec)
+  }else {
+    let timeMilliSec = 1000 * 60 * timeInput.value
+    countdown(timeMilliSec)
     timeInput.value = ''
   }
 } 
 
-stopButton.onclick
 
-//timer start ~= form.onsubmit  ?=> gleiche Funktion???
-//timer stop ~= stops the countdown function and stores remaining time
-//timer clear 
-//make it refresh persistant 
-//solve problem with two timers started at once
+function stopCountdown() {
+  clearInterval(intervalId)
+  intervalId = null
+  remainingTime = null 
+  timerPanel.textContent = ''
+}
+
+function pauseCountdown() {
+  clearInterval(intervalId)
+  intervalId = null
+}
+
+pauseButton.onclick = () => {pauseCountdown()}
+stopButton.onclick = () => {stopCountdown()}
+
+//Problems: 
+//start is fundamentally different button from pause and stop
+//intervalId and remaining time are global 
+//not refresh persistant 
+//two timers started can be started at same time
