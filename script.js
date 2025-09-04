@@ -48,13 +48,12 @@ form.onsubmit = (event) => {
     countdown(remainingTime)
   } else if (timeInput.value === '') {
     alert('Please type in the number of minutes you would like focus for!')
-  }else {
+  } else {
     let timeMilliSec = 1000 * 60 * timeInput.value
     countdown(timeMilliSec)
     timeInput.value = ''
   }
 } 
-
 
 function stopCountdown() {
   clearInterval(intervalId)

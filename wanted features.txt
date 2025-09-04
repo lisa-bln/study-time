@@ -1,0 +1,9 @@
+- study sessions
+- data analysis of your sessions
+- pomo timer
+- to do list 
+- time estimate for todo
+- 'currently working on' tag that tracks how long you spend on a task
+- data analysis on when most tasks are being done and how long they actually took you compared to what you thought how long it would take you 
+- youtube videos and different backgrounds in the study session
+- 
